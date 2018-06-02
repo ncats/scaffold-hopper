@@ -12,8 +12,6 @@ client without arguments:
 ./run.sh
 ```
 
-Note there are two arguments here.
-
 If you prefer to have the services running locally (so that
 structure searching doesn't go outside of your organization), then you
 can use our [docker
@@ -40,4 +38,5 @@ your local web services, simply point the client locally as follows:
 ./run.sh http://localhost:8080 chembl-v24
 ```
 
-Please report problems and/or suggestions to nguyenda@mail.nih.gov.
+Note there are two arguments here. Please report problems and/or
+suggestions to nguyenda@mail.nih.gov.
