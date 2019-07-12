@@ -1,0 +1,91 @@
+<?xml version="1.0"?>
+
+<project name="rgroup" default="rgroup" basedir=".">
+  <property name="lib" value="lib"/>
+  <property name="build" value="build"/>
+  <property name="dist" value="dist"/>
+  <property name="deploy" value="deploy"/>
+  <property name="src" value="src"/>
+
+  <property name="build.compiler" value="modern"/>
+  <property name="log4j.config.file" value="log4j.properties"/>
+  
+  <property file="build.properties"/>
+
+  <target name="init">
+    <tstamp>
+      <format property="touch.time"
+              pattern="MM/dd/yyyy 'at' HH:mm:ss z"/>
+    </tstamp>
+    
+    <!-- Create the build directory structure used by compile -->
+    <mkdir dir="${build}"/>
+    <mkdir dir="${dist}"/>
+    <mkdir dir="${deploy}"/>
+  </target>
+  
+  <path id="compile.classpath">
+    <fileset dir="${lib}">
+      <include name="**/*.jar"/>
+    </fileset>
+  </path>
+
+  <path id="run.classpath">
+    <pathelement location="${build}"/>
+    <fileset dir="${lib}">
+      <include name="**/*.jar"/>
+    </fileset>
+  </path>
+  
+  <target name="compile" depends="init">
+    <!-- Compile the java code from ${src} into ${build} -->
+    
+    <javac srcdir="${src}"
+           destdir="${build}"
+           deprecation="on"
+           debug="${javac.debug}"
+           nowarn="${javac.generate.no.warnings}"
+           includeantruntime="false"
+           fork="no">
+      <classpath refid="compile.classpath"/>
+    </javac>
+  </target>
+
+  <target name="rgroup" depends="compile">
+    <javac srcdir="${src}"
+           destdir="${build}"
+           deprecation="on"
+           debug="on">
+      <classpath refid="compile.classpath"/>
+    </javac>
+    
+    <copy todir="${build}/resources">
+      <fileset dir="${src}/resources"/>
+    </copy>
+    <copy todir="${build}/resources">
+      <fileset dir="${src}/gov/nih/ncgc/rgroup/resources"/>
+    </copy>
+    <copy todir="${build}/resources">
+      <fileset dir="${src}/gov/nih/ncgc/util/resources"/>
+    </copy>
+    
+    <delete dir="${build}/META-INF"/>
+    <jar jarfile="${dist}/rgroup.jar" basedir="${build}" includes="**">
+      <manifest>
+        <attribute name="Built-By" value="${user.name}"/>
+        <attribute name="Main-Class"
+                   value="gov.nih.ncgc.rgroup.RGroupTool"/>
+        <attribute name="Permissions" value="all-permissions"/>
+        <attribute name="Application-Name" value="Scaffold Hopper"/>
+        <attribute name="Codebase" value="*.nih.gov"/>
+      </manifest>
+    </jar>
+  </target>
+
+  <target name="main" depends="rgroup">
+     <echo message="=== Running RGroupTool "/>
+     <java classname="gov.nih.ncgc.rgroup.RGroupTool" maxmemory="2048m"
+            classpathref="run.classpath" fork="true">
+     </java>
+  </target>
+</project>

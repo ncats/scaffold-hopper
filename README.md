@@ -40,3 +40,13 @@ your local web services, simply point the client locally as follows:
 
 Note there are two arguments here. Please report problems and/or
 suggestions to nguyenda@mail.nih.gov.
+
+
+Building from source
+====================
+
+To build from source, you'll need to have ```ant``` installed, e.g.,
+
+```
+ant main
+```
