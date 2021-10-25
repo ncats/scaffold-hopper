@@ -39,7 +39,7 @@ your local web services, simply point the client locally as follows:
 ```
 
 Note there are two arguments here. Please report problems and/or
-suggestions to nguyenda@mail.nih.gov.
+suggestions to trung@jhu.edu.
 
 
 Building from source
